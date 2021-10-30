@@ -136,25 +136,22 @@ void loop()
       u8g.print(cpu_tmp);
       
       //t_sen
-      u8g.setPrintPos(33, 64);
+      u8g.setPrintPos(32, 64);
       u8g.print(t_sen);
 
       //graph
+      for (int i = 0; i < 16; i++){
+        u8g.drawPixel(i*4+68,16);
+        u8g.drawPixel(i*4+68,31);
+        u8g.drawPixel(i*4+68,46);
+      }
+
       u8g.drawLine(64,0,128,0);
-      u8g.drawLine(64,1,128,1);
       u8g.drawLine(64,0,64,64);
-      u8g.drawLine(65,0,65,64);
-      u8g.drawLine(126,0,126,64);
       u8g.drawLine(127,0,127,64);
-      u8g.drawLine(64,62,128,62);
       u8g.drawLine(64,63,128,63);
       for (int i = 0; i < 60; i++)
-      {
-        if (map(cpu_log[59-i],0,100,0,60) < 1)
-          {u8g.drawLine(125-i,61,125-i,60);}
-        else
-          {u8g.drawLine(125-i,61,125-i,61-map(cpu_log[59-i],0,100,0,60));}
-      }
+      {u8g.drawLine(125-i,61,125-i,61-map(cpu_log[59-i],0,100,0,60));}
     }
     while(u8g.nextPage());
 
@@ -197,21 +194,18 @@ void loop()
         u8g.drawStr(0,64,"!!!!");}
 
       //graph
+      for (int i = 0; i < 16; i++){
+        u8g.drawPixel(i*4+68,16);
+        u8g.drawPixel(i*4+68,31);
+        u8g.drawPixel(i*4+68,46);
+      }
+
       u8g.drawLine(64,0,128,0);
-      u8g.drawLine(64,1,128,1);
       u8g.drawLine(64,0,64,64);
-      u8g.drawLine(65,0,65,64);
-      u8g.drawLine(126,0,126,64);
       u8g.drawLine(127,0,127,64);
-      u8g.drawLine(64,62,128,62);
       u8g.drawLine(64,63,128,63);
       for (int i = 0; i < 60; i++)
-      {
-        if (map(gpu_log[59-i],0,100,0,60) < 1)
-          {u8g.drawLine(125-i,61,125-i,60);}
-        else
-          {u8g.drawLine(125-i,61-map(gpu_enc_log[59-i],0,100,0,60),125-i,61-map(gpu_log[59-i],0,100,0,60));}
-      }
+      {u8g.drawLine(125-i,61-map(gpu_enc_log[59-i],0,100,0,60),125-i,61-map(gpu_log[59-i],0,100,0,60));}
     }
     while(u8g.nextPage());
 
@@ -272,7 +266,6 @@ void loop()
       else{
         u8g.setPrintPos(81, 59);
         u8g.print(ddr_abl);}
-      
     }
     while(u8g.nextPage());
 
