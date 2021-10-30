@@ -1,4 +1,3 @@
-//first git test  
 #include <U8glib.h>
 #include <I2CMux.h>
 #include <Wire.h>
