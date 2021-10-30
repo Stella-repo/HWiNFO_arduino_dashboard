@@ -197,6 +197,10 @@ void loop()
         u8g.drawStr(0,64,"!!!!");}
 
       //graph
+      for (int i = 0; i < 19; i++){
+        u8g.drawPixel(i*3+69,31);
+      }
+
       u8g.drawLine(64,0,128,0);
       u8g.drawLine(64,1,128,1);
       u8g.drawLine(64,0,64,64);
