@@ -21,7 +21,8 @@ int status = 1;
 
 void disp()
 {
-  for (int i = 0; i < 16; i++){
+  for (int i = 0; i < 16; i++)
+  {
     u8g.drawPixel(i*4+68,16);
     u8g.drawPixel(i*4+68,31);
     u8g.drawPixel(i*4+68,46);
@@ -46,12 +47,13 @@ void setup() {
   Wire.begin();
   f08();
   for (int i = 0; i < 6; i++)
-  {     
+  { 
     u8g.firstPage();
-    do {
-    I2CMulti.switchToBus(i);
-    u8g.begin();
-    u8g.drawStr(6,37,"Waiting HWiNFO Data..");
+    do
+    {
+      I2CMulti.switchToBus(i);
+      u8g.begin();
+      u8g.drawStr(6,37,"Waiting HWiNFO Data..");
     }
     while( u8g.nextPage());
   }
@@ -61,9 +63,11 @@ void setup() {
 void loop() 
 {
   if (status == 0)
-    {if (digitalRead(9) == LOW) status = 1;}
+    {if (digitalRead(9) == LOW)
+      {status = 1;}}
   else if (status == 1)
-    {if (digitalRead(9) == LOW) status = 0;}
+    {if (digitalRead(9) == LOW)
+      {status = 0;}}
 
   if (status == 0)
   {
@@ -161,13 +165,13 @@ void loop()
 
         //cpu_usg
         f24();
-        if (cpu_usg < 10){
+        if (cpu_usg < 10) {
           u8g.setPrintPos(32, 36);
           u8g.print(cpu_usg);}
-        else if (cpu_usg < 100){
+        else if (cpu_usg < 100) {
           u8g.setPrintPos(14, 36);
           u8g.print(cpu_usg);}
-        else{
+        else {
           u8g.drawStr(0,36,"1");
           u8g.drawStr(14,36,"00");}
 
@@ -183,7 +187,7 @@ void loop()
         //graph
         disp();
         for (int i = 0; i < 60; i++)
-        {u8g.drawLine(125-i,61,125-i,61-map(cpu_log[59-i],0,100,0,60));}
+          {u8g.drawLine(125-i,61,125-i,61-map(cpu_log[59-i],0,100,0,60));}
       }
       while(u8g.nextPage());
 
@@ -199,13 +203,13 @@ void loop()
 
         //gpu_usg
         f24();
-        if (gpu_usg < 10){
+        if (gpu_usg < 10) {
           u8g.setPrintPos(32, 36);
           u8g.print(gpu_usg);}
-        else if (gpu_usg < 100){
+        else if (gpu_usg < 100) {
           u8g.setPrintPos(14, 36);
           u8g.print(gpu_usg);}
-        else{
+        else {
           u8g.drawStr(0,36,"1");
           u8g.drawStr(14,36,"00");}
         
@@ -216,19 +220,19 @@ void loop()
         u8g.print(gpu_tmp);
         
         //gpu_enc
-        if (gpu_enc < 10){
+        if (gpu_enc < 10) {
           u8g.setPrintPos(13, 64);
           u8g.print(gpu_enc);}
-        else if (gpu_enc < 100){
+        else if (gpu_enc < 100) {
           u8g.setPrintPos(0, 64);
           u8g.print(gpu_enc);}
-        else{
+        else {
           u8g.drawStr(0,64,"!!!!");}
 
         //graph
         disp();
         for (int i = 0; i < 60; i++)
-        {u8g.drawLine(125-i,61-map(gpu_enc_log[59-i],0,100,0,60),125-i,61-map(gpu_log[59-i],0,100,0,60));}
+          {u8g.drawLine(125-i,61-map(gpu_enc_log[59-i],0,100,0,60),125-i,61-map(gpu_log[59-i],0,100,0,60));}
       }
       while(u8g.nextPage());
 
@@ -251,17 +255,17 @@ void loop()
         
         //mem_lod
         f18();
-        if (mem_lod < 10){
+        if (mem_lod < 10) {
           u8g.setPrintPos(32, 34);
           u8g.print(mem_lod);}
-        else if (mem_lod < 100){
+        else if (mem_lod < 100) {
           u8g.setPrintPos(20, 34);
           u8g.print(mem_lod);}
-        else{
+        else {
           u8g.drawStr(7,34,"100");}
           
         //mem_abl
-        if (mem_abl < 10){
+        if (mem_abl < 10) {
           u8g.setPrintPos(13, 59);
           u8g.print(mem_abl,1);}
         else {
@@ -269,10 +273,10 @@ void loop()
           u8g.print(mem_abl,1);}
 
         //cdr_abl
-        if (cdr_abl < 10){
+        if (cdr_abl < 10) {
           u8g.setPrintPos(107, 34);
           u8g.print(cdr_abl);}
-        else if (cdr_abl < 100){
+        else if (cdr_abl < 100) {
           u8g.setPrintPos(94, 34);
           u8g.print(cdr_abl);}
         else {
@@ -280,10 +284,10 @@ void loop()
           u8g.print(cdr_abl);}
 
         //ddr_abl
-        if (ddr_abl < 10){
+        if (ddr_abl < 10) {
           u8g.setPrintPos(107, 59);
           u8g.print(ddr_abl);}
-        else if (ddr_abl < 100){
+        else if (ddr_abl < 100) {
           u8g.setPrintPos(94, 59);
           u8g.print(ddr_abl);}
         else {
@@ -320,10 +324,10 @@ void loop()
         
         //cdr_act
         f14();
-        if (cdr_act < 10){
+        if (cdr_act < 10) {
           u8g.setPrintPos(20, 36);
           u8g.print(cdr_act);}
-        else if (cdr_act < 100){
+        else if (cdr_act < 100) {
           u8g.setPrintPos(10, 36);
           u8g.print(cdr_act);}
         else {
@@ -331,16 +335,16 @@ void loop()
           u8g.print(cdr_act);}
           
         //cdr_red
-        if (cdr_red == 0){
+        if (cdr_red == 0) {
           u8g.setPrintPos(63, 36);
           u8g.print(cdr_red, 0);}
-        else if (cdr_red < 10){
+        else if (cdr_red < 10) {
           u8g.setPrintPos(48, 36);
           u8g.print(cdr_red, 1);}
-        else if (cdr_red < 100){
+        else if (cdr_red < 100) {
           u8g.setPrintPos(38, 36);
           u8g.print(cdr_red, 1);}
-        else if (cdr_red < 1000){
+        else if (cdr_red < 1000) {
           u8g.setPrintPos(43, 36);
           u8g.print(cdr_red, 0);}
         else {
@@ -348,16 +352,16 @@ void loop()
           u8g.print(cdr_red, 0);}
 
         //cdr_wrt
-        if (cdr_wrt == 0){
+        if (cdr_wrt == 0) {
           u8g.setPrintPos(109, 36);
           u8g.print(cdr_wrt, 0);}
-        else if (cdr_wrt < 10){
+        else if (cdr_wrt < 10) {
           u8g.setPrintPos(94, 36);
           u8g.print(cdr_wrt, 1);}
-        else if (cdr_wrt < 100){
+        else if (cdr_wrt < 100) {
           u8g.setPrintPos(84, 36);
           u8g.print(cdr_wrt, 1);}
-        else if (cdr_wrt < 1000){
+        else if (cdr_wrt < 1000) {
           u8g.setPrintPos(89, 36);
           u8g.print(cdr_wrt, 0);}
         else {
@@ -365,10 +369,10 @@ void loop()
           u8g.print(cdr_wrt, 0);}
         
         //ddr_act
-        if (ddr_act < 10){
+        if (ddr_act < 10) {
           u8g.setPrintPos(20, 64);
           u8g.print(ddr_act);}
-        else if (ddr_act < 100){
+        else if (ddr_act < 100) {
           u8g.setPrintPos(10, 64);
           u8g.print(ddr_act);}
         else {
@@ -376,16 +380,16 @@ void loop()
           u8g.print(ddr_act);}
         
         //ddr_red
-        if (ddr_red == 0){
+        if (ddr_red == 0) {
           u8g.setPrintPos(63, 64);
           u8g.print(ddr_red, 0);}
-        else if (ddr_red < 10){
+        else if (ddr_red < 10) {
           u8g.setPrintPos(48, 64);
           u8g.print(ddr_red, 1);}
-        else if (ddr_red < 100){
+        else if (ddr_red < 100) {
           u8g.setPrintPos(38, 64);
           u8g.print(ddr_red, 1);}
-        else if (ddr_red < 1000){
+        else if (ddr_red < 1000) {
           u8g.setPrintPos(43, 64);
           u8g.print(ddr_red, 0);}
         else {
@@ -393,16 +397,16 @@ void loop()
           u8g.print(ddr_red, 0);}
 
         //ddr_wrt
-        if (ddr_wrt == 0){
+        if (ddr_wrt == 0) {
           u8g.setPrintPos(109, 64);
           u8g.print(ddr_wrt, 0);}
-        else if (ddr_wrt < 10){
+        else if (ddr_wrt < 10) {
           u8g.setPrintPos(94, 64);
           u8g.print(ddr_wrt, 1);}
-        else if (ddr_wrt < 100){
+        else if (ddr_wrt < 100) {
           u8g.setPrintPos(84, 64);
           u8g.print(ddr_wrt, 1);}
-        else if (ddr_wrt < 1000){
+        else if (ddr_wrt < 1000) {
           u8g.setPrintPos(89, 64);
           u8g.print(ddr_wrt, 0);}
         else {
@@ -435,13 +439,13 @@ void loop()
 
         //int_upr
         f18();
-        if (int_upr == 0){
+        if (int_upr == 0) {
           u8g.setPrintPos(39, 33);
           u8g.print(int_upr, 0);}
-        else if (int_upr < 10){
+        else if (int_upr < 10) {
           u8g.setPrintPos(19, 33);
           u8g.print(int_upr, 1);}
-        else if (int_upr < 100){
+        else if (int_upr < 100) {
           u8g.setPrintPos(6, 33);
           u8g.print(int_upr, 1);}
         else {
@@ -449,13 +453,13 @@ void loop()
           u8g.print(int_upr, 0);}
 
         //int_dlr
-        if (int_dlr == 0){
+        if (int_dlr == 0) {
           u8g.setPrintPos(39, 60);
           u8g.print(int_dlr, 0);}
-        else if (int_dlr < 10){
+        else if (int_dlr < 10) {
           u8g.setPrintPos(19, 60);
           u8g.print(int_dlr, 1);}
-        else if (int_dlr < 100){
+        else if (int_dlr < 100) {
           u8g.setPrintPos(6, 60);
           u8g.print(int_dlr, 1);}
         else {
@@ -464,7 +468,7 @@ void loop()
 
         //cpu_fan
         f14();
-        if (cpu_fan < 1000){
+        if (cpu_fan < 1000) {
           u8g.setPrintPos(95, 28);
           u8g.print(cpu_fan);}
         else {
@@ -472,10 +476,10 @@ void loop()
           u8g.print(cpu_fan);}      
 
         //gpu_fan
-        if (gpu_fan == 0){
+        if (gpu_fan == 0) {
           u8g.setPrintPos(115, 44);
           u8g.print(gpu_fan);}
-        else if (gpu_fan < 1000){
+        else if (gpu_fan < 1000) {
           u8g.setPrintPos(95, 44);
           u8g.print(gpu_fan);}
         else {
@@ -483,7 +487,7 @@ void loop()
           u8g.print(gpu_fan);}     
 
         //fnt_fan
-        if (fnt_fan < 1000){
+        if (fnt_fan < 1000) {
           u8g.setPrintPos(95, 60);
           u8g.print(fnt_fan);}
         else {
