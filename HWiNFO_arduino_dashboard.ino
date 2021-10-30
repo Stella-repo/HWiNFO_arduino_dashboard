@@ -11,30 +11,13 @@ U8GLIB_SH1106_128X64 u8g(U8G_I2C_OPT_DEV_0|U8G_I2C_OPT_FAST);
 int cpu_log[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 int gpu_log[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 int gpu_enc_log[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-int srlength,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26;
+int a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26;
 String sr;
 char ddr_red_unit[2],ddr_wrt_unit[2],cdr_red_unit[2],cdr_wrt_unit[2],int_upr_unit[2],int_dlr_unit[2];
 int cpu_usg,cpu_tmp,t_sen,gpu_usg,gpu_enc,mem_lod,cpu_fan,fnt_fan,ddr_act,cdr_act,gpu_tmp,gpu_fan,cdr_abl,ddr_abl;
 float mem_abl,ddr_red,ddr_wrt,cdr_red,cdr_wrt,int_upr,int_dlr;
 int status = 1;
 
-
-void setup() {
-  Serial.begin(9600);
-  Wire.begin();
-  u8g.setFont(u8g_font_helvB08r);
-  for (int i = 0; i < 6; i++)
-  {     
-    u8g.firstPage();
-    do {
-    I2CMulti.switchToBus(i);
-    u8g.begin();
-    u8g.drawStr(6,37,"Waiting HWiNFO Data..");
-    }
-    while( u8g.nextPage());
-  }
-  pinMode(9, INPUT_PULLUP);
-}
 
 void disp()
 {
@@ -47,6 +30,32 @@ void disp()
   u8g.drawLine(64,0,64,64);
   u8g.drawLine(127,0,127,64);
   u8g.drawLine(64,63,128,63);
+}
+void f08()
+  {u8g.setFont(u8g_font_helvB08r);}
+void f14()
+  {u8g.setFont(u8g_font_helvB14r);}
+void f18()
+  {u8g.setFont(u8g_font_helvB18r);}
+void f24()
+  {u8g.setFont(u8g_font_helvB24r);}
+
+
+void setup() {
+  Serial.begin(9600);
+  Wire.begin();
+  f08();
+  for (int i = 0; i < 6; i++)
+  {     
+    u8g.firstPage();
+    do {
+    I2CMulti.switchToBus(i);
+    u8g.begin();
+    u8g.drawStr(6,37,"Waiting HWiNFO Data..");
+    }
+    while( u8g.nextPage());
+  }
+  pinMode(9, INPUT_PULLUP);
 }
 
 void loop() 
@@ -100,8 +109,6 @@ void loop()
       a25 = sr.indexOf("/", a24+1);
       a26 = sr.indexOf("/", a25+1);
 
-      srlength = sr.length();
-
       mem_abl = (sr.substring(0, a1)).toFloat();
       mem_lod = (sr.substring(a1+1, a2)).toInt();
       cpu_usg = (sr.substring(a2+1, a3)).toInt();
@@ -128,7 +135,7 @@ void loop()
       (sr.substring(a23+1, a24)).toCharArray(int_upr_unit,2);
       (sr.substring(a24+1, a25)).toCharArray(int_dlr_unit,2);
       cdr_abl = (sr.substring(a25+1, a26)).toInt();
-      ddr_abl = (sr.substring(a26+1, srlength)).toInt();
+      ddr_abl = (sr.substring(a26+1, sr.length())).toInt();
 
 
       for (int i = 0; i < 59; i++)
@@ -146,14 +153,14 @@ void loop()
       I2CMulti.switchToBus(0);
       u8g.firstPage();
       do {
-        u8g.setFont(u8g_font_helvB08r);
+        f08();
         u8g.drawStr(0,8,"CPU");
         u8g.drawStr(53,36,"%");
         u8g.drawStr(21,48,"'C");
         u8g.drawStr(53,48 ,"'C");
 
         //cpu_usg
-        u8g.setFont(u8g_font_helvB24r);
+        f24();
         if (cpu_usg < 10){
           u8g.setPrintPos(32, 36);
           u8g.print(cpu_usg);}
@@ -165,7 +172,7 @@ void loop()
           u8g.drawStr(14,36,"00");}
 
         //cpu_tmp
-        u8g.setFont(u8g_font_helvB18r);
+        f18();
         u8g.setPrintPos(0, 64);
         u8g.print(cpu_tmp);
         
@@ -184,14 +191,14 @@ void loop()
       I2CMulti.switchToBus(1);
       u8g.firstPage();
       do {
-        u8g.setFont(u8g_font_helvB08r);
+        f08();
         u8g.drawStr(0,8,"GPU");
         u8g.drawStr(52,36,"%");
         u8g.drawStr(25,48,"%");
         u8g.drawStr(53,48 ,"'C");
 
         //gpu_usg
-        u8g.setFont(u8g_font_helvB24r);
+        f24();
         if (gpu_usg < 10){
           u8g.setPrintPos(32, 36);
           u8g.print(gpu_usg);}
@@ -204,7 +211,7 @@ void loop()
         
 
         //gpu_tmp
-        u8g.setFont(u8g_font_helvB18r);
+        f18();
         u8g.setPrintPos(33, 64);
         u8g.print(gpu_tmp);
         
@@ -230,7 +237,7 @@ void loop()
       I2CMulti.switchToBus(2);
       u8g.firstPage();
       do {
-        u8g.setFont(u8g_font_helvB08r);
+        f08();
         u8g.drawStr(20,8,"RAM");
         u8g.drawStr(47,34,"%");
         u8g.drawStr(47,59,"G");
@@ -238,12 +245,12 @@ void loop()
         u8g.drawStr(120,33,"G");
         u8g.drawStr(120,59,"G");
         
-        u8g.setFont(u8g_font_helvB14r);
+        f14();
         u8g.drawStr(59,32,"C:");
         u8g.drawStr(59,57,"D:");
         
         //mem_lod
-        u8g.setFont(u8g_font_helvB18r);
+        f18();
         if (mem_lod < 10){
           u8g.setPrintPos(32, 34);
           u8g.print(mem_lod);}
@@ -290,7 +297,7 @@ void loop()
       I2CMulti.switchToBus(3);
       u8g.firstPage();
       do {
-        u8g.setFont(u8g_font_helvB08r);
+        f08();
         u8g.drawStr(0,8,"DISK");
         u8g.drawStr(0,20,"C:");
         u8g.drawStr(0,47,"D:");
@@ -312,7 +319,7 @@ void loop()
         u8g.print(ddr_wrt_unit);
         
         //cdr_act
-        u8g.setFont(u8g_font_helvB14r);
+        f14();
         if (cdr_act < 10){
           u8g.setPrintPos(20, 36);
           u8g.print(cdr_act);}
@@ -409,7 +416,7 @@ void loop()
       I2CMulti.switchToBus(4);
       u8g.firstPage();
       do {
-        u8g.setFont(u8g_font_helvB08r);
+        f08();
         u8g.drawStr(20,8,"NET");
         u8g.drawStr(97,8,"FAN");
         u8g.drawStr(0,26,"^");
@@ -427,7 +434,7 @@ void loop()
         u8g.print(int_dlr_unit);
 
         //int_upr
-        u8g.setFont(u8g_font_helvB18r);
+        f18();
         if (int_upr == 0){
           u8g.setPrintPos(39, 33);
           u8g.print(int_upr, 0);}
@@ -456,7 +463,7 @@ void loop()
           u8g.print(int_dlr, 0);}
 
         //cpu_fan
-        u8g.setFont(u8g_font_helvB14r);
+        f14();
         if (cpu_fan < 1000){
           u8g.setPrintPos(95, 28);
           u8g.print(cpu_fan);}
