@@ -19,8 +19,7 @@ float mem_abl,ddr_red,ddr_wrt,cdr_red,cdr_wrt,int_upr,int_dlr;
 int status = 1;
 
 
-void disp()
-{
+void disp() {
   for (int i = 0; i < 16; i++)
   {
     u8g.drawPixel(i*4+68,16);
@@ -46,7 +45,7 @@ void setup() {
   Serial.begin(9600);
   Wire.begin();
   f08();
-  for (int i = 0; i < 6; i++)
+  for (int i = 0; i < 5; i++)
   { 
     u8g.firstPage();
     do
@@ -60,8 +59,7 @@ void setup() {
   pinMode(9, INPUT_PULLUP);
 }
 
-void loop() 
-{
+void loop() {
   if (status == 0)
     {if (digitalRead(9) == LOW)
       {status = 1;}}
@@ -71,7 +69,7 @@ void loop()
 
   if (status == 0)
   {
-    for (int i = 0; i < 6; i++)
+    for (int i = 0; i < 5; i++)
     { 
       I2CMulti.switchToBus(i);
       u8g.firstPage();
