@@ -1,5 +1,6 @@
 # HWiNFO_arduino_dashboard
 HWiNFO의 Shared Memory Support 기능을 사용하여 각종 정보를 받아오고 파이썬 코드를 통해 아두이노와 시리얼 통신을 하여 OLED디스플레이에 표시합니다   
+푸시버튼을 이용하여 oled화면을 끄고 켤수도 있습니다
 
 ## 표시하는 정보  
 * CPU   
