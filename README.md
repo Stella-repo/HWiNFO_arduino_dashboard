@@ -1,5 +1,6 @@
 # HWiNFO_arduino_dashboard
 HWiNFO의 Shared Memory Support 기능을 사용하여 각종 정보를 받아오고 파이썬 코드를 통해 아두이노와 시리얼 통신을 하여 OLED디스플레이에 표시합니다   
+푸시버튼을 이용하여 oled화면을 끄고 켤수도 있습니다
 
 ## 표시하는 정보  
 * CPU   
@@ -28,7 +29,7 @@ HWiNFO의 Shared Memory Support 기능을 사용하여 각종 정보를 받아�
   * FAN RPM값
   
 ## 프리뷰
-![preview](https://github.com/Stella-repo/HWiNFO_arduino_dashboard/blob/main/preview.gif?raw=true)
+![preview](https://github.com/Stella-repo/HWiNFO_arduino_dashboard/blob/main/img/preview.gif?raw=true)
 
 
 ## HWiNFO 설정방법  
@@ -36,9 +37,9 @@ HWiNFO의 Shared Memory Support 기능을 사용하여 각종 정보를 받아�
 v6.42 이하 버전을 사용하시만 제한없이 사용가능합니다  
 
 
-![setting1](https://github.com/Stella-repo/HWiNFO_arduino_dashboard/blob/main/setting1.png?raw=true)
-![setting2](https://github.com/Stella-repo/HWiNFO_arduino_dashboard/blob/main/setting2.png?raw=true)
-![setting3](https://github.com/Stella-repo/HWiNFO_arduino_dashboard/blob/main/setting3.png?raw=true)
+![setting1](https://github.com/Stella-repo/HWiNFO_arduino_dashboard/blob/main/img/setting1.png?raw=true)
+![setting2](https://github.com/Stella-repo/HWiNFO_arduino_dashboard/blob/main/img/setting2.png?raw=true)
+![setting3](https://github.com/Stella-repo/HWiNFO_arduino_dashboard/blob/main/img/setting3.png?raw=true)
 
 Physical Memory Used - Multiply → 0.00097(= /1024) (MB → GB)  
 Drive Total Activity - Read Rate, Write Rate → 1024 (MB/s → KB/s)  
