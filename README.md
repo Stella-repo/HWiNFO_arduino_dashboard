@@ -32,6 +32,7 @@ HWiNFO의 Shared Memory Support 기능을 사용하여 각종 정보를 받아�
 ![preview](https://github.com/Stella-repo/HWiNFO_arduino_dashboard/blob/main/img/preview.gif?raw=true)
 
 ## 결선도   
+![wiring Diagram](https://github.com/Stella-repo/HWiNFO_arduino_dashboard/blob/main/img/wiring%20diagram.jpg?raw=true)
 
 
 ## HWiNFO 설정방법  
