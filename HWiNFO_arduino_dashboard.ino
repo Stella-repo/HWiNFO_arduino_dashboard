@@ -2,11 +2,11 @@
 #include <I2CMux.h>
 #include <Wire.h>
 
-#define I2CMulti_Addr 0x70
+#define I2CMulti_Addr 0x70 //멀티플렉서 주소 지정
 
 I2CMux I2CMulti(I2CMulti_Addr);
 
-U8GLIB_SH1106_128X64 u8g(U8G_I2C_OPT_DEV_0|U8G_I2C_OPT_FAST);
+U8GLIB_SH1106_128X64 u8g(U8G_I2C_OPT_DEV_0|U8G_I2C_OPT_FAST); //oled디스플레이 설정
 
 int cpu_log[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 int gpu_log[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
@@ -14,12 +14,12 @@ int gpu_enc_log[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 int a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26;
 String sr;
 char ddr_red_unit[2],ddr_wrt_unit[2],cdr_red_unit[2],cdr_wrt_unit[2],int_upr_unit[2],int_dlr_unit[2];
-int cpu_usg,cpu_tmp,t_sen,gpu_usg,gpu_enc,mem_lod,cpu_fan,fnt_fan,ddr_act,cdr_act,gpu_tmp,gpu_fan,cdr_abl,ddr_abl;
+int cpu_usg,cpu_tmp,t_sen,gpu_usg,gpu_enc,mem_usg,cpu_fan,fnt_fan,ddr_act,cdr_act,gpu_tmp,gpu_fan,cdr_abl,ddr_abl;
 float mem_abl,ddr_red,ddr_wrt,cdr_red,cdr_wrt,int_upr,int_dlr;
 int status = 1;
 
 
-void disp() {
+void disp() { //저장공간 줄이기용, 그래프 테두리 그리기
   for (int i = 0; i < 16; i++)
   {
     u8g.drawPixel(i*4+68,16);
@@ -31,7 +31,7 @@ void disp() {
   u8g.drawLine(127,0,127,64);
   u8g.drawLine(64,63,128,63);
 }
-void f08()
+void f08() //저장공간 줄이기용..
   {u8g.setFont(u8g_font_helvB08r);}
 void f14()
   {u8g.setFont(u8g_font_helvB14r);}
@@ -45,47 +45,47 @@ void setup() {
   Serial.begin(9600);
   Wire.begin();
   f08();
-  for (int i = 0; i < 5; i++)
+  for (int i = 0; i < 5; i++) //첫페이지 생셩
   { 
     u8g.firstPage();
     do
     {
       I2CMulti.switchToBus(i);
-      u8g.begin();
+      u8g.begin(); //이거 안해주면 한번씩 화면이 안깨어나는 버그가 있음
       u8g.drawStr(6,37,"Waiting HWiNFO Data..");
     }
     while( u8g.nextPage());
   }
-  pinMode(9, INPUT_PULLUP);
+  pinMode(9, INPUT_PULLUP); //oled화면 끄고켜기 버튼
 }
 
 void loop() {
-  if (status == 0)
-    {if (digitalRead(9) == LOW)
-      {status = 1;}}
+  if (status == 0) //status가 0일때
+    {if (digitalRead(9) == LOW) //버튼이 눌리면
+      {status = 1;}} //status를 1로 변경
   else if (status == 1)
     {if (digitalRead(9) == LOW)
       {status = 0;}}
 
-  if (status == 0)
+  if (status == 0) //status가 0이면
   {
     for (int i = 0; i < 5; i++)
     { 
       I2CMulti.switchToBus(i);
       u8g.firstPage();
-      do {}
+      do {} //화면출력 아무거도 안하기
       while(u8g.nextPage());
     }
   }
 
-  if (status == 1)
+  if (status == 1) //status가 1이고
   {
-    if (Serial.available())
+    if (Serial.available()) //시리얼포트를 통해 문자열이 날라오면 작업시작
     {
-      sr = Serial.readStringUntil('>'); 
+      sr = Serial.readStringUntil('>'); //'>'문자 전까지 읽어오기
 
-      a1 = sr.indexOf("/");
-      a2 = sr.indexOf("/", a1+1);
+      a1 = sr.indexOf("/"); //첫번째 '/'위치 찾기
+      a2 = sr.indexOf("/", a1+1); //첫번째 '/'위치 뒤로부터 처음으로 나오는 '/'위치찾기
       a3 = sr.indexOf("/", a2+1);
       a4 = sr.indexOf("/", a3+1);
       a5 = sr.indexOf("/", a4+1);
@@ -111,17 +111,17 @@ void loop() {
       a25 = sr.indexOf("/", a24+1);
       a26 = sr.indexOf("/", a25+1);
 
-      mem_abl = (sr.substring(0, a1)).toFloat();
-      mem_lod = (sr.substring(a1+1, a2)).toInt();
-      cpu_usg = (sr.substring(a2+1, a3)).toInt();
+      mem_abl = (sr.substring(0, a1)).toFloat(); //맨앞부터 첫번째 '/'앞까지
+      mem_usg = (sr.substring(a1+1, a2)).toInt(); //첫번째 '/'건너뛰고 다음부터 두번째 '/'앞까지
+      cpu_usg = (sr.substring(a2+1, a3)).toInt(); //Int로 변경
       cpu_tmp = (sr.substring(a3+1, a4)).toInt();
       cpu_fan = (sr.substring(a4+1, a5)).toInt();
       fnt_fan = (sr.substring(a5+1, a6)).toInt();
       t_sen = (sr.substring(a6+1, a7)).toInt();
       ddr_act = (sr.substring(a7+1, a8)).toInt();
-      ddr_red = (sr.substring(a8+1, a9)).toFloat();
+      ddr_red = (sr.substring(a8+1, a9)).toFloat(); //Float로 변경
       ddr_wrt = (sr.substring(a9+1, a10)).toFloat();
-      (sr.substring(a10+1, a11)).toCharArray(ddr_red_unit,2);
+      (sr.substring(a10+1, a11)).toCharArray(ddr_red_unit,2); //Char로 변경
       (sr.substring(a11+1, a12)).toCharArray(ddr_wrt_unit,2);
       cdr_act = (sr.substring(a12+1, a13)).toInt();
       cdr_red = (sr.substring(a13+1, a14)).toFloat();
@@ -140,7 +140,7 @@ void loop() {
       ddr_abl = (sr.substring(a26+1, sr.length())).toInt();
 
 
-      for (int i = 0; i < 59; i++)
+      for (int i = 0; i < 59; i++) //그래프를 그리기 위해서 로그 값들을 앞으로 하나씩 밀기
       {
         cpu_log[i] = cpu_log[i+1];
         gpu_log[i] = gpu_log[i+1];
@@ -152,10 +152,10 @@ void loop() {
       
 
     //CPU
-      I2CMulti.switchToBus(0);
+      I2CMulti.switchToBus(0); //멀티플렉서의 0번 채널로 전환
       u8g.firstPage();
       do {
-        f08();
+        f08(); //폰트크기 8로 변경
         u8g.drawStr(0,8,"CPU");
         u8g.drawStr(53,36,"%");
         u8g.drawStr(21,48,"'C");
@@ -163,13 +163,13 @@ void loop() {
 
         //cpu_usg
         f24();
-        if (cpu_usg < 10) {
+        if (cpu_usg < 10) { //값이 10보다 작으면 오른쪽에
           u8g.setPrintPos(32, 36);
           u8g.print(cpu_usg);}
-        else if (cpu_usg < 100) {
+        else if (cpu_usg < 100) { //값이 100보다 작으면 가운데에
           u8g.setPrintPos(14, 36);
           u8g.print(cpu_usg);}
-        else {
+        else { //값이 100이면 100출력(공간이 좁아서 위치 수동으로 잡아줌)
           u8g.drawStr(0,36,"1");
           u8g.drawStr(14,36,"00");}
 
@@ -184,9 +184,9 @@ void loop() {
 
         //graph
         disp();
-        for (int i = 0; i < 60; i++)
-          {u8g.drawLine(125-i,61,125-i,61-map(cpu_log[59-i],0,100,0,60));}
-      }
+        for (int i = 0; i < 60; i++) //하나씩 선그어서 그래프 그리기
+          {u8g.drawLine(125-i,61,125-i,61-map(cpu_log[59-i],0,100,0,0));}
+      }                                   //0부터 100까지 나오는 수를 0부터 60까지 범위의 숫자로 멥핑
       while(u8g.nextPage());
 
     //GPU
@@ -231,7 +231,7 @@ void loop() {
         disp();
         for (int i = 0; i < 60; i++)
           {u8g.drawLine(125-i,61-map(gpu_enc_log[59-i],0,100,0,60),125-i,61-map(gpu_log[59-i],0,100,0,60));}
-      }
+      }                           //enc사용량 만큼은 빼고 그리기(그래프에서 밑에 빈부분만큼이 nvenc사용량), enc=max일때 대비해서 enc그래프는 1픽셀 밑으로 지정
       while(u8g.nextPage());
 
 
@@ -251,21 +251,21 @@ void loop() {
         u8g.drawStr(59,32,"C:");
         u8g.drawStr(59,57,"D:");
         
-        //mem_lod
+        //mem_usg
         f18();
-        if (mem_lod < 10) {
+        if (mem_usg < 10) {
           u8g.setPrintPos(32, 34);
-          u8g.print(mem_lod);}
-        else if (mem_lod < 100) {
+          u8g.print(mem_usg);}
+        else if (mem_usg < 100) {
           u8g.setPrintPos(20, 34);
-          u8g.print(mem_lod);}
+          u8g.print(mem_usg);}
         else {
           u8g.drawStr(7,34,"100");}
           
         //mem_abl
         if (mem_abl < 10) {
           u8g.setPrintPos(13, 59);
-          u8g.print(mem_abl,1);}
+          u8g.print(mem_abl,1);} //소수 첫째자리까지만 출력
         else {
           u8g.setPrintPos(0, 59);
           u8g.print(mem_abl,1);}
@@ -421,9 +421,9 @@ void loop() {
         f08();
         u8g.drawStr(20,8,"NET");
         u8g.drawStr(97,8,"FAN");
-        u8g.drawStr(0,26,"^");
+        u8g.drawStr(0,26,"^"); //화살표 그리기
         u8g.drawStr(1,28,"l");
-        u8g.drawStr180(3,46,"^");
+        u8g.drawStr180(3,46,"^"); //180도 회전해서 출력
         u8g.drawStr(1,53,"l");
         u8g.drawStr(63,26,"CPU");
         u8g.drawStr(63,42,"GPU");
