@@ -25,13 +25,24 @@ HWiNFO의 Shared Memory Support 기능을 사용하여 각종 정보를 받아�
 
 * NET, FAN
   * 인터넷 보내기, 받기 속도 (단위 : Kbps, Mbps)
-  * FAN rpm값
+  * FAN RPM값
   
 ## 프리뷰
+![preview](https://github.com/Stella-repo/HWiNFO_arduino_dashboard/blob/main/preview.gif?raw=true)
 
-## 
 
-## 설정방법
+## HWiNFO 설정방법  
+최신버전 HWiNFO에서는 Shared Memory Support 기능에 제한시간이 생겼습니다  
+v6.42 이하 버전을 사용하시만 제한없이 사용가능합니다  
+
+
+![setting1](https://github.com/Stella-repo/HWiNFO_arduino_dashboard/blob/main/setting1.png?raw=true)
+![setting2](https://github.com/Stella-repo/HWiNFO_arduino_dashboard/blob/main/setting2.png?raw=true)
+![setting3](https://github.com/Stella-repo/HWiNFO_arduino_dashboard/blob/main/setting3.png?raw=true)
+
+Physical Memory Used - Multiply → 0.00097(= /1024) (MB → GB)  
+Drive Total Activity - Read Rate, Write Rate → 1024 (MB/s → KB/s)  
+Network Current DL, UP rate - Multiply → 8 (KB/s → Kbps)  
 
 ## 사용한 외부 라이브러리
 * [u8glib](https://github.com/olikraus/u8glib)
