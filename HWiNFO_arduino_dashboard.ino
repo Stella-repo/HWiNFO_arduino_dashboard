@@ -185,7 +185,7 @@ void loop() {
         //graph
         disp();
         for (int i = 0; i < 60; i++) //하나씩 선그어서 그래프 그리기
-          {u8g.drawLine(125-i,61,125-i,61-map(cpu_log[59-i],0,100,0,0));}
+          {u8g.drawLine(125-i,61,125-i,61-map(cpu_log[59-i],0,100,0,60));}
       }                                   //0부터 100까지 나오는 수를 0부터 60까지 범위의 숫자로 멥핑
       while(u8g.nextPage());
 
